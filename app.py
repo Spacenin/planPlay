@@ -2,9 +2,16 @@ from flask import Flask
 import requests
 from requests.auth import HTTPBasicAuth
 import spotify 
+import json
 
-access = "0e7728b3e5b83ae6fa2f0bb10f67d00ec69f2aa30c45b441fe698cb5aaa043c6"
-secret = "f145339246b3dbde38ecd813b4711ccd385ac8e9a6727cf393cf33d81e702280"
+secretJson = {}
+
+#Open and read secret file to get stuff
+with open("/home/ubuntu/planPlay/secrets.json", "r") as secretFile:
+    secretJson = json.load(secretFile)
+
+access = secretJson["plan"]["access"]
+secret = secretJson["plan"]["secret"]
 #URL for the gathering plans
 url = "https://api.planningcenteronline.com/services/v2/service_types/782403"
 
