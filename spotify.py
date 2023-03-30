@@ -43,15 +43,17 @@ def clearPlaylist():
 
 #Add songs in the list to the playlist
 def addSongs(songs):
-    clearPlaylist()
+    #Make sure there are songs to add
+    if (songs):
+        clearPlaylist()
     
-    #Get each song by title
-    for song in songs:
-        print(song)
+        #Get each song by title
+        for song in songs:
+            print(song)
         
-        #Get the uri to send to create
-        response = requests.get(url + "/search?q=" + song + "%20genre=gospel&type=track&market=US", headers=authHeader).json()["tracks"]["items"][0]
-        print(response["name"])
-        uri = response["uri"]
+            #Get the uri to send to create
+            response = requests.get(url + "/search?q=" + song + "%20genre=gospel&type=track&market=US", headers=authHeader).json()["tracks"]["items"][0]
+            print(response["name"])
+            uri = response["uri"]
         
-        requests.post(url + "/playlists/" + playlistID + "/tracks?uris=" + uri, headers=authHeader).json()
+            requests.post(url + "/playlists/" + playlistID + "/tracks?uris=" + uri, headers=authHeader).json()
