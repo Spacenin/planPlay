@@ -2,26 +2,35 @@ import requests
 import json
 import base64
 
+#Make every global
 jsonSecrets = {}
+playListID = ""
+url = ""
+clientID = ""
+clientSecret = ""
+token = ""
+authHeader = {}
 
-#Get secret stuff
-with open("/home/ubuntu/planPlay/secrets.json", "r") as secrets:
-    jsonSecrets = json.load(secrets)
+#Set all secret stuff
+def getStuff():
+    #Get secret stuff
+    with open("/home/ubuntu/planPlay/secrets.json", "r") as secrets:
+        jsonSecrets = json.load(secrets)
 
-#Playlist id for the setlist
-playlistID = jsonSecrets["spotify"]["playlistID"]
-#Base url for the api
-url = "https://api.spotify.com/v1"
-#Client id and secret
-clientID = jsonSecrets["spotify"]["clientID"]
-clientSecret = jsonSecrets["spotify"]["clientSecret"]
+    #Playlist id for the setlist
+    playlistID = jsonSecrets["spotify"]["playlistID"]
+    #Base url for the api
+    url = "https://api.spotify.com/v1"
+    #Client id and secret
+    clientID = jsonSecrets["spotify"]["clientID"]
+    clientSecret = jsonSecrets["spotify"]["clientSecret"]
  
-#Access token and auth header to use to access stuff
-token = jsonSecrets["spotify"]["accessToken"]
+    #Access token and auth header to use to access stuff
+    token = jsonSecrets["spotify"]["accessToken"]
 
-authHeader = {
-        "Authorization": "Bearer " + token
-        }
+    authHeader = {
+            "Authorization": "Bearer " + token
+            }
 
 #Clear the playlist of all current songs
 def clearPlaylist():
@@ -51,6 +60,9 @@ def clearPlaylist():
 
 #Add songs in the list to the playlist
 def addSongs(songs):
+    #Make sure we set everything up
+    getStuff()
+
     #Make sure there are songs to add
     if (songs):
         clearPlaylist()
