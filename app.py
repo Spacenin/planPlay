@@ -28,28 +28,21 @@ def getSongs():
     
     #For each plan, go through the songs
     for plan in plans:
-        print(plan["id"])
         items = requests.get(url + "/plans/" + plan["id"] + "/items", auth=serviceAuth).json()["data"]
         
         songs = []
 
-        #For each item, get its type, and if song, store it
+        #For each item, get its type, and if song, store its title
         for item in items:
             if item["attributes"]["item_type"] == "song":
-                songs.append(item)
+                songs.append(item["attributes"]["title"])
         
         songDummy = []
 
         #Remove duplicates
         [songDummy.append(song) for song in songs if song not in songDummy]
-        
-        #Make the list just song titles
-        songTitles = []
 
-        for song in songDummy:
-            songTitles.append(song["attributes"]["title"])
-
-        spotify.addSongs(songTitles)
+        spotify.addSongs(songDummy)
 
         return("good!")
 

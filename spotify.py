@@ -26,8 +26,15 @@ authHeader = {
 #Clear the playlist of all current songs
 def clearPlaylist():
     #Get all current songs
-    #print(requests.get(url + "/playlists/" + playlistID + "/tracks", headers=authHeader))
-    currentSongs = requests.get(url + "/playlists/" + playlistID + "/tracks", headers=authHeader).json()["items"]
+    #print(requests.get(url + "/playlists/" + playlistID + "/tracks", headers=authHeader)) 
+    response = requests.get(url + "/playlists/" + playlistID + "/tracks", headers=authHeader).json()
+        
+    currentSongs = response["items"]
+    
+    #Check that we have songs
+    if not currentSongs:
+        print("empty playlist")
+        return
     
     #Setup json to send
     currentJson = {
