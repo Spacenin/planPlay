@@ -2,9 +2,9 @@ import requests
 import json
 import base64
 
-#Make every global
+#Make global stuff global
 jsonSecrets = {}
-playListID = ""
+playlistID = ""
 url = ""
 clientID = ""
 clientSecret = ""
@@ -15,19 +15,26 @@ authHeader = {}
 def getStuff():
     #Get secret stuff
     with open("/home/ubuntu/planPlay/secrets.json", "r") as secrets:
+        global jsonSecrets
         jsonSecrets = json.load(secrets)
 
     #Playlist id for the setlist
+    global playlistID
     playlistID = jsonSecrets["spotify"]["playlistID"]
     #Base url for the api
+    global url
     url = "https://api.spotify.com/v1"
     #Client id and secret
+    global clientID
+    global clientSecret
     clientID = jsonSecrets["spotify"]["clientID"]
     clientSecret = jsonSecrets["spotify"]["clientSecret"]
  
     #Access token and auth header to use to access stuff
+    global token
     token = jsonSecrets["spotify"]["accessToken"]
 
+    global authHeader
     authHeader = {
             "Authorization": "Bearer " + token
             }
@@ -62,6 +69,10 @@ def clearPlaylist():
 def addSongs(songs):
     #Make sure we set everything up
     getStuff()
+
+    print("url" + url)
+    print("playlist" + playlistID)
+    print(authHeader)
 
     #Make sure there are songs to add
     if (songs):
