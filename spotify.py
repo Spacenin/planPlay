@@ -29,6 +29,7 @@ def clearPlaylist():
     #print(requests.get(url + "/playlists/" + playlistID + "/tracks", headers=authHeader)) 
     response = requests.get(url + "/playlists/" + playlistID + "/tracks", headers=authHeader).json()
         
+    print(response)
     currentSongs = response["items"]
     
     #Check that we have songs

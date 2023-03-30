@@ -4,25 +4,25 @@ from requests.auth import HTTPBasicAuth
 import spotify 
 import json
 
-secretJson = {}
-
-#Open and read secret file to get stuff
-with open("/home/ubuntu/planPlay/secrets.json", "r") as secretFile:
-    secretJson = json.load(secretFile)
-
-access = secretJson["plan"]["access"]
-secret = secretJson["plan"]["secret"]
-#URL for the gathering plans
-url = "https://api.planningcenteronline.com/services/v2/service_types/782403"
-
-serviceAuth = HTTPBasicAuth(access, secret)
-
 #Define the flask app
 app = Flask(__name__)
 
 #Route to this function
 @app.route("/planCreate", methods=['POST'])
 def getSongs():
+    secretJson = {}
+
+    #Open and read secret file to get stuff
+    with open("/home/ubuntu/planPlay/secrets.json", "r") as secretFile:
+        secretJson = json.load(secretFile)
+
+    access = secretJson["plan"]["access"]
+    secret = secretJson["plan"]["secret"]
+    #URL for the gathering plans
+    url = "https://api.planningcenteronline.com/services/v2/service_types/782403"
+
+    serviceAuth = HTTPBasicAuth(access, secret)
+
     #Get all plans upcoming
     plans = requests.get(url + "/plans?filter=future", auth=serviceAuth).json()["data"]
     
