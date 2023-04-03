@@ -24,7 +24,16 @@ def getSongs():
     serviceAuth = HTTPBasicAuth(access, secret)
 
     #Get all plans upcoming
-    plans = requests.get(url + "/plans?filter=future", auth=serviceAuth).json()["data"]
+    response = requests.get(url + "/plans?filter=future", auth=serviceAuth).json()
+    
+    #Make sure there are plans to get
+    if response["data"]:
+        plans = response["data"]
+    else:
+        return("no plans!")
+
+    if not plans:
+        return("no plans!")
     
     #For each plan, go through the songs
     for plan in plans:
